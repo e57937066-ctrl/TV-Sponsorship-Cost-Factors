@@ -4,10 +4,16 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
 import numpy as np
+import os
 
 # Загрузка данных
 @st.cache_data
 def load_data():
+    # Если файла нет, генерируем данные
+    if not os.path.exists('tv_advertising_data.xlsx'):
+        import subprocess
+        subprocess.run(['python', 'generate_data.py'])
+    
     df = pd.read_excel('tv_advertising_data.xlsx')
     df['Дата'] = pd.to_datetime(df['Дата'])
     return df
